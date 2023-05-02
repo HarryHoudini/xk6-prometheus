@@ -27,10 +27,11 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"time"
 
+	"github.com/HarryHoudini/xk6-prometheus/internal"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
-	"github.com/szkiba/xk6-prometheus/internal"
 
 	"github.com/gorilla/schema"
 	"go.k6.io/k6/output"
@@ -128,5 +129,8 @@ func (o *Output) Start() error {
 }
 
 func (o *Output) Stop() error {
+	fmt.Println("Sleep 60s starting.....")
+	time.Sleep(60 * time.Second)
+	fmt.Println("Sleep stopped")
 	return nil
 }
