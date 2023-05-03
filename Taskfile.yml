@@ -23,29 +23,29 @@
 version: "3"
 
 env:
-  K6_VERSION: v0.32.0
+    K6_VERSION: v0.32.0
 
 silent: true
 
 tasks:
-  default:
-    cmds:
-      - task: test
+    default:
+        cmds:
+            - task: test
 
-  clean:
-    desc: Clean up working directory
-    cmds:
-      - rm -f k6
+    clean:
+        desc: Clean up working directory
+        cmds:
+            - rm -f k6
 
-  build:
-    sources:
-      - "**/*.go"
-    generates:
-      - k6
-    cmds:
-      - xk6 build --with github.com/HarryHoudini/xk6-prometheus=$(pwd)
+    build:
+        sources:
+            - "**/*.go"
+        generates:
+            - k6
+        cmds:
+            - xk6 build --with github.com/adeo/mp--order-tracking--xk6-prometheus=$(pwd)
 
-  test:
-    deps: [build]
-    cmds:
-      - ./k6 run --out prometheus=namespace=k6 -d 1m --no-usage-report script.js
+    test:
+        deps: [build]
+        cmds:
+            - ./k6 run --out prometheus=namespace=k6 -d 1m --no-usage-report script.js

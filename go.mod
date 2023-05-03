@@ -1,4 +1,4 @@
-module github.com/HarryHoudini/xk6-prometheus
+module github.com/adeo/mp--order-tracking--xk6-prometheus
 
 go 1.16
 
