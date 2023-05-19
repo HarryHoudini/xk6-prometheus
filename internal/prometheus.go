@@ -106,8 +106,8 @@ func (a *PrometheusAdapter) handleSample(sample *metrics.Sample) {
 	handler(sample)
 }
 
-func (a *PrometheusAdapter) tagsToLabelNames(tags *metrics.SampleTags) []string {
-	m := tags.CloneTags()
+func (a *PrometheusAdapter) tagsToLabelNames(tags *metrics.TagSet) []string {
+	m := tags.Map()
 	m["tls_version"] = "" // created later by k6
 
 	keys := make([]string, 0, len(m))
@@ -119,8 +119,8 @@ func (a *PrometheusAdapter) tagsToLabelNames(tags *metrics.SampleTags) []string 
 	return keys
 }
 
-func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *metrics.SampleTags) []string {
-	tags := sampleTags.CloneTags()
+func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *metrics.TagSet) []string {
+	tags := sampleTags.Map()
 	labelValues := []string{}
 
 	for _, label := range labelNames {
@@ -193,7 +193,7 @@ func (a *PrometheusAdapter) handleTrend(sample *metrics.Sample) {
 	}
 }
 
-func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *metrics.SampleTags) (counter *counterWithLabels) {
+func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *metrics.TagSet) (counter *counterWithLabels) {
 	if col, ok := a.metrics[name]; ok {
 		if c, tok := col.(*counterWithLabels); tok {
 			counter = c
@@ -226,7 +226,7 @@ func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *met
 	return counter
 }
 
-func (a *PrometheusAdapter) getGauge(name string, helpSuffix string, tags *metrics.SampleTags) (gauge *gaugeWithLabels) {
+func (a *PrometheusAdapter) getGauge(name string, helpSuffix string, tags *metrics.TagSet) (gauge *gaugeWithLabels) {
 	if gau, ok := a.metrics[name]; ok {
 		if g, tok := gau.(*gaugeWithLabels); tok {
 			gauge = g
@@ -259,7 +259,7 @@ func (a *PrometheusAdapter) getGauge(name string, helpSuffix string, tags *metri
 	return gauge
 }
 
-func (a *PrometheusAdapter) getSummary(name string, helpSuffix string, tags *metrics.SampleTags) (summary *summaryWithLabels) {
+func (a *PrometheusAdapter) getSummary(name string, helpSuffix string, tags *metrics.TagSet) (summary *summaryWithLabels) {
 	if sum, ok := a.metrics[name]; ok {
 		if s, tok := sum.(*summaryWithLabels); tok {
 			summary = s
@@ -293,7 +293,7 @@ func (a *PrometheusAdapter) getSummary(name string, helpSuffix string, tags *met
 	return summary
 }
 
-func (a *PrometheusAdapter) getHistogram(name string, helpSuffix string, buckets []float64, tags *metrics.SampleTags) (histogram *histogramWithLabels) {
+func (a *PrometheusAdapter) getHistogram(name string, helpSuffix string, buckets []float64, tags *metrics.TagSet) (histogram *histogramWithLabels) {
 	if his, ok := a.metrics[name]; ok {
 		if h, tok := his.(*histogramWithLabels); tok {
 			histogram = h
