@@ -131,6 +131,7 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 
 	if len(tags) > 0 {
 		// a.logger.WithField("unused_tags", tags).Warn("Not all tags used as labels")
+		a.logger.WithField("unused_tags", tags).Warn("")
 	}
 
 	a.logger.WithField("tags", tags).Info("__________________________tags____________________________")
