@@ -353,6 +353,8 @@ var builtinMetrics = map[string]string{
 	"data_received":      "The amount of received data",
 	"data_sent":          "The amount of data sent",
 	"checks":             "The rate of successful checks",
+	"grpc_req_duration":  "The time it took to complete one full GRPC iteration",
+
 
 	"http_reqs":                "How many HTTP requests has k6 generated, in total",
 	"http_req_blocked":         "Time spent blocked  before initiating the request",
@@ -360,7 +362,7 @@ var builtinMetrics = map[string]string{
 	"http_req_tls_handshaking": "Time spent handshaking TLS session",
 	"http_req_sending":         "Time spent sending data",
 	"http_req_waiting":         "Time spent waiting for response",
-	"http_req_receiving":       "Time spent receiving response data",
+	"http_req_receiving":       "Time spent recedata_receivediving response data",
 	"http_req_duration":        "Total time for the request",
 	"http_req_failed":          "The rate of failed requests",
 }

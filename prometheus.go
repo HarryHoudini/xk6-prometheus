@@ -29,7 +29,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/adeo/mp--order-tracking--xk6-prometheus/internal"
+	"github.com/HarryHoudini/xk6-prometheus/internal"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 
