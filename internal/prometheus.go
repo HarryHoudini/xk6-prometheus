@@ -23,6 +23,7 @@
 package internal
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -123,6 +124,8 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 	tags := sampleTags.Map()
 	labelValues := []string{}
 
+    fmt.Println(tags)
+
 	for _, label := range labelNames {
 		labelValues = append(labelValues, tags[label])
 		delete(tags, label)
@@ -131,6 +134,10 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 	if len(tags) > 0 {
 		a.logger.WithField("unused_tags", tags).Warn("Not all tags used as labels")
 	}
+
+    fmt.Println("tags ", tags)
+    fmt.Println("labelValues", labelValues)
+
 
 	return labelValues
 }
@@ -205,7 +212,7 @@ func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *met
 	if counter == nil {
 		labelNames := a.tagsToLabelNames(tags)
 		counter = &counterWithLabels{
-			counterVec: prometheus.NewCounterVec(prometheus.CounterOpts{ // nolint:exhaustivestruct
+			counterVec: prometheus.NewCounterVec(prometheus.CounterOpts{
 				Namespace: a.Namespace,
 				Subsystem: a.Subsystem,
 				Name:      name,
@@ -238,7 +245,7 @@ func (a *PrometheusAdapter) getGauge(name string, helpSuffix string, tags *metri
 	if gauge == nil {
 		labelNames := a.tagsToLabelNames(tags)
 		gauge = &gaugeWithLabels{
-			gaugeVec: prometheus.NewGaugeVec(prometheus.GaugeOpts{ // nolint:exhaustivestruct
+			gaugeVec: prometheus.NewGaugeVec(prometheus.GaugeOpts{
 				Namespace: a.Namespace,
 				Subsystem: a.Subsystem,
 				Name:      name,
@@ -271,12 +278,12 @@ func (a *PrometheusAdapter) getSummary(name string, helpSuffix string, tags *met
 	if summary == nil {
 		labelNames := a.tagsToLabelNames(tags)
 		summary = &summaryWithLabels{
-			summaryVec: prometheus.NewSummaryVec(prometheus.SummaryOpts{ // nolint:exhaustivestruct
+			summaryVec: prometheus.NewSummaryVec(prometheus.SummaryOpts{
 				Namespace:  a.Namespace,
 				Subsystem:  a.Subsystem,
 				Name:       name,
 				Help:       helpFor(name, helpSuffix),
-				Objectives: map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.95: 0.001, 1: 0}, // nolint:gomnd
+				Objectives: map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.95: 0.001, 1: 0},
 			}, labelNames),
 			labelNames: labelNames,
 		}
