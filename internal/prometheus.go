@@ -23,6 +23,7 @@
 package internal
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -122,7 +123,7 @@ func (a *PrometheusAdapter) tagsToLabelNames(tags *metrics.TagSet) []string {
 func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *metrics.TagSet) []string {
 	tags := sampleTags.Map()
 	labelValues := []string{}
-	a.logger.WithField("tags", tags).Info("__________________________tags____________________________")
+	a.logger.WithField("tags", tags).Info("__________________________tags-before____________________________")
 
 	for _, label := range labelNames {
 		labelValues = append(labelValues, tags[label])
@@ -134,10 +135,12 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 		a.logger.WithField("unused_tags", tags).Warn("")
 	}
 
-	a.logger.WithField("tags", tags).Info("__________________________tags____________________________")
+	a.logger.WithField("tags", tags).Info("__________________________tags-after____________________________")
 	a.logger.WithField("labelValues", labelValues).Info("__________________________labelValues____________________________")
+	a.logger.WithField("labelValuesfmt.Sprint(tags))", labelValues).Info("__________________________labelValues--tags____________________________")
 
-	return labelValues
+
+	return append(labelValues, fmt.Sprint(tags))
 }
 
 func (a *PrometheusAdapter) handleCounter(sample *metrics.Sample) {
