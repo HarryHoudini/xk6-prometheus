@@ -140,7 +140,7 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 	a.logger.Info("__________________________labelValues--tags____________________________/n  ", append(labelValues, fmt.Sprint(tags)))
 
 
-	return append(labelValues, fmt.Sprint(tags))
+	return labelValues
 }
 
 func (a *PrometheusAdapter) handleCounter(sample *metrics.Sample) {
