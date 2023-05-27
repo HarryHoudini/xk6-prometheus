@@ -137,7 +137,7 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 
 	a.logger.WithField("tags", tags).Info("__________________________tags-after____________________________")
 	a.logger.WithField("labelValues", labelValues).Info("__________________________labelValues____________________________")
-	a.logger.WithField("labelValuesfmt.Sprint(tags))", labelValues).Info("__________________________labelValues--tags____________________________")
+	a.logger.WithField("labelValuesfmt.Sprint(tags))", append(labelValues, fmt.Sprint(tags))).Info("__________________________labelValues--tags____________________________")
 
 
 	return append(labelValues, fmt.Sprint(tags))
@@ -365,7 +365,7 @@ var builtinMetrics = map[string]string{
 	"http_req_tls_handshaking": "Time spent handshaking TLS session",
 	"http_req_sending":         "Time spent sending data",
 	"http_req_waiting":         "Time spent waiting for response",
-	"http_req_receiving":       "Time spent recedata_receivediving response data",
+	"http_req_receiving":       "Time spent receiving response data",
 	"http_req_duration":        "Total time for the request",
 	"http_req_failed":          "The rate of failed requests",
 }
