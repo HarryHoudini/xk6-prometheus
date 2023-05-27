@@ -137,7 +137,7 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 
 	a.logger.WithField("tags", tags).Info("__________________________tags-after____________________________")
 	a.logger.WithField("labelValues", labelValues).Info("__________________________labelValues____________________________")
-	a.logger.WithField("labelValuesfmt.Sprint(tags))", append(labelValues, fmt.Sprint(tags))).Info("__________________________labelValues--tags____________________________")
+	a.logger.Info("__________________________labelValues--tags____________________________/n  ", append(labelValues, fmt.Sprint(tags)))
 
 
 	return append(labelValues, fmt.Sprint(tags))
