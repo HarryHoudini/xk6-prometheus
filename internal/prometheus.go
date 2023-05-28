@@ -104,6 +104,8 @@ func (a *PrometheusAdapter) handleSample(sample *metrics.Sample) {
 		return
 	}
 
+	a.logger.Info("__________________________handler(sample)______________________", sample)
+
 	handler(sample)
 }
 
@@ -357,6 +359,7 @@ var builtinMetrics = map[string]string{
 	"data_sent":          "The amount of data sent",
 	"checks":             "The rate of successful checks",
 	"grpc_req_duration":  "The time it took to complete one full GRPC iteration",
+	"group_duration":  "The time it took to complete one full group iteration",
 
 
 	"http_reqs":                "How many HTTP requests has k6 generated, in total",
