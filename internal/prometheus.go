@@ -104,7 +104,7 @@ func (a *PrometheusAdapter) handleSample(sample *metrics.Sample) {
 		return
 	}
 
-	a.logger.Info("__________________________handler(sample)______________________", sample)
+	a.logger.Info("_____handler(sample)_", sample)
 
 	handler(sample)
 }
@@ -125,7 +125,7 @@ func (a *PrometheusAdapter) tagsToLabelNames(tags *metrics.TagSet) []string {
 func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *metrics.TagSet) []string {
 	tags := sampleTags.Map()
 	labelValues := []string{}
-	a.logger.WithField("tags", tags).Info("__________________________tags-before____________________________")
+	a.logger.WithField("tags", tags).Info("_____tags-before_______")
 
 	for _, label := range labelNames {
 		labelValues = append(labelValues, tags[label])
@@ -137,9 +137,9 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 		a.logger.WithField("unused_tags", tags).Warn("")
 	}
 
-	a.logger.WithField("tags", tags).Info("__________________________tags-after____________________________")
-	a.logger.WithField("labelValues", labelValues).Info("__________________________labelValues____________________________")
-	a.logger.Info("__________________________labelValues--tags11____________________________/n  ", append(labelValues, fmt.Sprint(tags)))
+	a.logger.WithField("tags", tags).Info("_____tags-after_______")
+	a.logger.WithField("labelValues", labelValues).Info("_____labelValues_______")
+	a.logger.Info("_____labelValues--tags11_______/n  ", append(labelValues, fmt.Sprint(tags)))
 
 
 	return labelValues
@@ -213,6 +213,7 @@ func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *met
 	}
 
 	if counter == nil {
+		a.logger.Info("________getCounter-tags________", tags)
 		labelNames := a.tagsToLabelNames(tags)
 		counter = &counterWithLabels{
 			counterVec: prometheus.NewCounterVec(prometheus.CounterOpts{
