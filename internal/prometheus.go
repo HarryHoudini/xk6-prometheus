@@ -115,9 +115,12 @@ func (a *PrometheusAdapter) tagsToLabelNames(tags *metrics.TagSet) []string {
 
 	keys := make([]string, 0, len(m))
 
+	a.logger.Info("tagsToLabelNames ", m)
+
 	for key := range m {
 		keys = append(keys, key)
 	}
+	a.logger.Info("keys ", keys)
 
 	return keys
 }
@@ -205,8 +208,10 @@ func (a *PrometheusAdapter) handleTrend(sample *metrics.Sample) {
 }
 
 func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *metrics.TagSet) (counter *counterWithLabels) {
+	a.logger.Info("a.metrics[name]", a.metrics[name])
 	if col, ok := a.metrics[name]; ok {
 		if c, tok := col.(*counterWithLabels); tok {
+			a.logger.Info("col.(*counterWithLabels)", col.(*counterWithLabels))
 			counter = c
 		} else {
 			a.logger.Warn("Wrong metric type found")
