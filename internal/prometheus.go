@@ -146,6 +146,7 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 }
 
 func (a *PrometheusAdapter) handleCounter(sample *metrics.Sample) {
+	a.logger.Info(sample.Metric.Name, "____k6 counter____", sample.Tags)
 	if counter := a.getCounter(sample.Metric.Name, "k6 counter", sample.Tags); counter != nil {
 		labelValues := a.tagsToLabelValues(counter.labelNames, sample.Tags)
 		metric, err := counter.counterVec.GetMetricWithLabelValues(labelValues...)
