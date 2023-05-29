@@ -246,7 +246,17 @@ func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *met
 
 			return nil
 		}
+		a.logger.Info("a.Namespace_", a.Namespace)
+		a.logger.Info("a.Subsystem_", a.Subsystem)
+		a.logger.Info("helpFor_", helpFor(name, helpSuffix))
+		a.logger.Info("helpSuffix_", helpSuffix)
 
+		a.logger.Info("prometheusNewCounterVec_", prometheus.NewCounterVec(prometheus.CounterOpts{
+			Namespace: a.Namespace,
+			Subsystem: a.Subsystem,
+			Name:      name,
+			Help:      helpFor(name, helpSuffix),
+		}, labelNames))
 		a.metrics[name] = counter
 	}
 
