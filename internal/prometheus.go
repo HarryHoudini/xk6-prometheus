@@ -216,6 +216,8 @@ func (a *PrometheusAdapter) handleTrend(sample *metrics.Sample) {
 }
 
 func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *metrics.TagSet) (counter *counterWithLabels) {
+	a.logger.Info("a.metrics_", a.metrics)
+	a.logger.Info("name_", name)
 	a.logger.Info("a.metrics[name]", a.metrics[name])
 	if col, ok := a.metrics[name]; ok {
 		if c, tok := col.(*counterWithLabels); tok {
