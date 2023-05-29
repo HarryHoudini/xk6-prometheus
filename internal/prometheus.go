@@ -104,7 +104,7 @@ func (a *PrometheusAdapter) handleSample(sample *metrics.Sample) {
 		return
 	}
 
-	a.logger.Info("_____handler(sample)_", sample)
+	a.logger.Info("_handler(sample)_", sample)
 
 	handler(sample)
 }
@@ -115,11 +115,12 @@ func (a *PrometheusAdapter) tagsToLabelNames(tags *metrics.TagSet) []string {
 
 	keys := make([]string, 0, len(m))
 
-	a.logger.Info("tagsToLabelNames ", m)
+	a.logger.Info("_tagsToLabelNames_", m)
 
 	for key := range m {
 		keys = append(keys, key)
 	}
+
 	a.logger.Info("keys ", keys)
 
 	return keys
@@ -128,28 +129,30 @@ func (a *PrometheusAdapter) tagsToLabelNames(tags *metrics.TagSet) []string {
 func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *metrics.TagSet) []string {
 	tags := sampleTags.Map()
 	labelValues := []string{}
-	a.logger.WithField("tags", tags).Info("_____tags-before_______")
+	a.logger.Info("_tags-before_", tags)
+	a.logger.Info("_labelNames-before_", labelNames)
 
 	for _, label := range labelNames {
+
 		labelValues = append(labelValues, tags[label])
 		delete(tags, label)
 	}
 
 	if len(tags) > 0 {
 		// a.logger.WithField("unused_tags", tags).Warn("Not all tags used as labels")
-		a.logger.WithField("unused_tags", tags).Warn("")
+		// a.logger.WithField("unused_tags", tags).Warn("")
 	}
 
-	a.logger.WithField("tags", tags).Info("_____tags-after_______")
-	a.logger.WithField("labelValues", labelValues).Info("_____labelValues_______")
-	a.logger.Info("_____labelValues--tags11_______/n  ", append(labelValues, fmt.Sprint(tags)))
+	a.logger.Info("_tags-after_", tags)
+	a.logger.Info("_labelValues_", labelValues)
+	a.logger.Info("_labelValues--tags_", append(labelValues, fmt.Sprint(tags)))
 
 
 	return labelValues
 }
 
 func (a *PrometheusAdapter) handleCounter(sample *metrics.Sample) {
-	a.logger.Info(sample.Metric.Name, "____k6 counter____", sample.Tags)
+	a.logger.Info(sample.Metric.Name, "__k6 counter__", sample.Tags)
 	if counter := a.getCounter(sample.Metric.Name, "k6 counter", sample.Tags); counter != nil {
 		a.logger.Info("__counter__", counter)
 		labelValues := a.tagsToLabelValues(counter.labelNames, sample.Tags)
@@ -220,7 +223,7 @@ func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *met
 	}
 
 	if counter == nil {
-		a.logger.Info("________getCounter-tags________", tags)
+		a.logger.Info("__getCounter-tags__", tags)
 		labelNames := a.tagsToLabelNames(tags)
 		counter = &counterWithLabels{
 			counterVec: prometheus.NewCounterVec(prometheus.CounterOpts{
