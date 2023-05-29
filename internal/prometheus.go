@@ -135,6 +135,7 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 	for _, label := range labelNames {
 		a.logger.Info("_label-for_", label)
 		a.logger.Info("_tags[label]_", tags[label])
+		a.logger.Info("_labelValues_", labelValues)
 
 		labelValues = append(labelValues, tags[label])
 		delete(tags, label)
