@@ -140,6 +140,7 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 		labelValues = append(labelValues, tags[label])
 		delete(tags, label)
 	}
+	labelValues = append(labelValues, tags["scenario"])
 
 	if len(tags) > 0 {
 		// a.logger.WithField("unused_tags", tags).Warn("Not all tags used as labels")
@@ -155,12 +156,15 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 }
 
 func (a *PrometheusAdapter) handleCounter(sample *metrics.Sample) {
-	a.logger.Info(sample.Metric.Name, "__k6 counter__", sample.Tags)
+	a.logger.Info(sample.Metric.Name, "handleCounter-k6-counter__", sample.Tags)
 	if counter := a.getCounter(sample.Metric.Name, "k6 counter", sample.Tags); counter != nil {
 		a.logger.Info("__handleCounter-counter__", counter)
 		labelValues := a.tagsToLabelValues(counter.labelNames, sample.Tags)
+		a.logger.Info("__labelValues__", labelValues)
 		metric, err := counter.counterVec.GetMetricWithLabelValues(labelValues...)
-		a.logger.Info("__metric__", metric)
+		a.logger.Info("__handleCounter-metric__", metric)
+		a.logger.Info("__handleCounter-metric.Desc().String()__", metric.Desc().String())
+		a.logger.Info("__handleCounter-sample__", sample.Value)
 		if err != nil {
 			a.logger.Error(err)
 		} else {
@@ -219,6 +223,7 @@ func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *met
 	a.logger.Info("a.metrics_", a.metrics)
 	a.logger.Info("name_", name)
 	a.logger.Info("a.metrics[name]", a.metrics[name])
+	a.logger.Info("a.metrics", a.metrics)
 	if col, ok := a.metrics[name]; ok {
 		if c, tok := col.(*counterWithLabels); tok {
 			a.logger.Info("col.(*counterWithLabels)", col.(*counterWithLabels))
