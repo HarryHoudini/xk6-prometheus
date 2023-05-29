@@ -133,6 +133,8 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 	a.logger.Info("_labelNames-before_", labelNames)
 
 	for _, label := range labelNames {
+		a.logger.Info("_label-for_", label)
+		a.logger.Info("_tags[label]_", tags[label])
 
 		labelValues = append(labelValues, tags[label])
 		delete(tags, label)
@@ -144,8 +146,8 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 	}
 
 	a.logger.Info("_tags-after_", tags)
-	a.logger.Info("_labelValues_", labelValues)
-	a.logger.Info("_labelValues--tags_", append(labelValues, fmt.Sprint(tags)))
+	a.logger.Info("_labelValues-after_", labelValues)
+	a.logger.Info("_append(labelValues, tags)_", append(labelValues, fmt.Sprint(tags)))
 
 
 	return labelValues
@@ -154,9 +156,10 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 func (a *PrometheusAdapter) handleCounter(sample *metrics.Sample) {
 	a.logger.Info(sample.Metric.Name, "__k6 counter__", sample.Tags)
 	if counter := a.getCounter(sample.Metric.Name, "k6 counter", sample.Tags); counter != nil {
-		a.logger.Info("__counter__", counter)
+		a.logger.Info("__handleCounter-counter__", counter)
 		labelValues := a.tagsToLabelValues(counter.labelNames, sample.Tags)
 		metric, err := counter.counterVec.GetMetricWithLabelValues(labelValues...)
+		a.logger.Info("__metric__", metric)
 		if err != nil {
 			a.logger.Error(err)
 		} else {
