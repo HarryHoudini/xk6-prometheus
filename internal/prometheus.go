@@ -23,7 +23,6 @@
 package internal
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -104,7 +103,7 @@ func (a *PrometheusAdapter) handleSample(sample *metrics.Sample) {
 		return
 	}
 
-	a.logger.Info("_handler(sample)_", sample)
+	// a.logger.Info("_handler(sample)_", sample)
 
 	handler(sample)
 }
@@ -115,13 +114,13 @@ func (a *PrometheusAdapter) tagsToLabelNames(tags *metrics.TagSet) []string {
 
 	keys := make([]string, 0, len(m))
 
-	a.logger.Info("_tagsToLabelNames_", m)
+	// a.logger.Info("_tagsToLabelNames_", m)
 
 	for key := range m {
 		keys = append(keys, key)
 	}
 
-	a.logger.Info("keys ", keys)
+	// a.logger.Info("keys ", keys)
 
 	return keys
 }
@@ -129,13 +128,13 @@ func (a *PrometheusAdapter) tagsToLabelNames(tags *metrics.TagSet) []string {
 func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *metrics.TagSet) []string {
 	tags := sampleTags.Map()
 	labelValues := []string{}
-	a.logger.Info("_tags-before_", tags)
-	a.logger.Info("_labelNames-before_", labelNames)
+	// a.logger.Info("_tags-before_", tags)
+	// a.logger.Info("_labelNames-before_", labelNames)
 
 	for _, label := range labelNames {
-		a.logger.Info("_label-for_", label)
-		a.logger.Info("_tags[label]_", tags[label])
-		a.logger.Info("_labelValues_", labelValues)
+		// a.logger.Info("_label-for_", label)
+		// a.logger.Info("_tags[label]_", tags[label])
+		// a.logger.Info("_labelValues_", labelValues)
 
 		labelValues = append(labelValues, tags[label])
 		delete(tags, label)
@@ -144,27 +143,27 @@ func (a *PrometheusAdapter) tagsToLabelValues(labelNames []string, sampleTags *m
 
 	if len(tags) > 0 {
 		// a.logger.WithField("unused_tags", tags).Warn("Not all tags used as labels")
-		a.logger.WithField("unused_tags", tags).Warn("unused_tags")
+		// a.logger.WithField("unused_tags", tags).Warn("unused_tags")
 	}
 
-	a.logger.Info("_tags-after_", tags)
-	a.logger.Info("_labelValues-after_", labelValues)
-	a.logger.Info("_append(labelValues, tags)_", append(labelValues, fmt.Sprint(tags)))
+	// a.logger.Info("_tags-after_", tags)
+	// a.logger.Info("_labelValues-after_", labelValues)
+	// a.logger.Info("_append(labelValues, tags)_", append(labelValues, fmt.Sprint(tags)))
 
 
 	return labelValues
 }
 
 func (a *PrometheusAdapter) handleCounter(sample *metrics.Sample) {
-	a.logger.Info(sample.Metric.Name, "__handleCounter-k6-counter__", sample.Tags)
+	// a.logger.Info(sample.Metric.Name, "__handleCounter-k6-counter__", sample.Tags)
 	if counter := a.getCounter(sample.Metric.Name, "k6 counter", sample.Tags); counter != nil {
-		a.logger.Info("__handleCounter-counter__", counter)
+		// a.logger.Info("__handleCounter-counter__", counter)
 		labelValues := a.tagsToLabelValues(counter.labelNames, sample.Tags)
-		a.logger.Info("__labelValues__", labelValues)
+		// a.logger.Info("__labelValues__", labelValues)
 		metric, err := counter.counterVec.GetMetricWithLabelValues(labelValues...)
-		a.logger.Info("__handleCounter-metric__", metric)
-		a.logger.Info("__handleCounter-metric.Desc().String()__", metric.Desc().String())
-		a.logger.Info("__handleCounter-sample__", sample.Value)
+		// a.logger.Info("__handleCounter-metric__", metric)
+		// a.logger.Info("__handleCounter-metric.Desc().String()__", metric.Desc().String())
+		// a.logger.Info("__handleCounter-sample__", sample.Value)
 		if err != nil {
 			a.logger.Error(err)
 		} else {
@@ -220,13 +219,13 @@ func (a *PrometheusAdapter) handleTrend(sample *metrics.Sample) {
 }
 
 func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *metrics.TagSet) (counter *counterWithLabels) {
-	a.logger.Info("a.metrics_", a.metrics)
-	a.logger.Info("name_", name)
-	a.logger.Info("a.metrics[name]", a.metrics[name])
-	a.logger.Info("a.metrics", a.metrics)
+	// a.logger.Info("a.metrics_", a.metrics)
+	// a.logger.Info("name_", name)
+	// a.logger.Info("a.metrics[name]", a.metrics[name])
+	// a.logger.Info("a.metrics", a.metrics)
 	if col, ok := a.metrics[name]; ok {
 		if c, tok := col.(*counterWithLabels); tok {
-			a.logger.Info("col.(*counterWithLabels)", col.(*counterWithLabels))
+			// a.logger.Info("col.(*counterWithLabels)", col.(*counterWithLabels))
 			counter = c
 		} else {
 			a.logger.Warn("Wrong metric type found")
@@ -234,7 +233,7 @@ func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *met
 	}
 
 	if counter == nil {
-		a.logger.Info("__getCounter-tags__", tags)
+		// a.logger.Info("__getCounter-tags__", tags)
 		labelNames := a.tagsToLabelNames(tags)
 		counter = &counterWithLabels{
 			counterVec: prometheus.NewCounterVec(prometheus.CounterOpts{
@@ -251,17 +250,17 @@ func (a *PrometheusAdapter) getCounter(name string, helpSuffix string, tags *met
 
 			return nil
 		}
-		a.logger.Info("a.Namespace_", a.Namespace)
-		a.logger.Info("a.Subsystem_", a.Subsystem)
-		a.logger.Info("helpFor_", helpFor(name, helpSuffix))
-		a.logger.Info("helpSuffix_", helpSuffix)
+		// a.logger.Info("a.Namespace_", a.Namespace)
+		// a.logger.Info("a.Subsystem_", a.Subsystem)
+		// a.logger.Info("helpFor_", helpFor(name, helpSuffix))
+		// a.logger.Info("helpSuffix_", helpSuffix)
 
-		a.logger.Info("prometheusNewCounterVec_", prometheus.NewCounterVec(prometheus.CounterOpts{
-			Namespace: a.Namespace,
-			Subsystem: a.Subsystem,
-			Name:      name,
-			Help:      helpFor(name, helpSuffix),
-		}, labelNames))
+		// a.logger.Info("prometheusNewCounterVec_", prometheus.NewCounterVec(prometheus.CounterOpts{
+		// 	Namespace: a.Namespace,
+		// 	Subsystem: a.Subsystem,
+		// 	Name:      name,
+		// 	Help:      helpFor(name, helpSuffix),
+		// }, labelNames))
 		a.metrics[name] = counter
 	}
 
