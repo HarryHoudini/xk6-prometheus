@@ -5,8 +5,8 @@ go 1.19
 require (
 	github.com/gorilla/schema v1.2.0
 	github.com/prometheus/client_golang v1.15.1
-	github.com/sirupsen/logrus v1.9.2
-	go.k6.io/k6 v0.44.1
+	github.com/sirupsen/logrus v1.9.3
+	go.k6.io/k6 v0.46.0
 )
 
 require (
@@ -24,9 +24,9 @@ require (
 	github.com/prometheus/common v0.43.0 // indirect
 	github.com/prometheus/procfs v0.9.0 // indirect
 	github.com/spf13/afero v1.9.5 // indirect
-	golang.org/x/sys v0.8.0 // indirect
-	golang.org/x/text v0.9.0 // indirect
+	golang.org/x/sys v0.9.0 // indirect
+	golang.org/x/text v0.10.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
-	google.golang.org/protobuf v1.30.0 // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/guregu/null.v3 v3.5.0 // indirect
 )
