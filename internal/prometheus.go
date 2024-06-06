@@ -317,7 +317,7 @@ func (a *PrometheusAdapter) getSummary(name string, helpSuffix string, tags *met
 				Subsystem:  a.Subsystem,
 				Name:       name,
 				Help:       helpFor(name, helpSuffix),
-				Objectives: map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.95: 0.001, 1: 0},
+				Objectives: map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.95: 0.005, 0.99: 0.001, 1: 0},
 			}, labelNames),
 			labelNames: labelNames,
 		}
