@@ -6,7 +6,7 @@ require (
 	github.com/gorilla/schema v1.4.0
 	github.com/prometheus/client_golang v1.19.1
 	github.com/sirupsen/logrus v1.9.3
-	go.k6.io/k6 v0.51.0
+	go.k6.io/k6 v0.52.0
 )
 
 require (

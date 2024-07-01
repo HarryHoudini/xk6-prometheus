@@ -59,8 +59,8 @@ github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.9.0 h1:HtqpIVDClZ4nwg75+f6Lvsy/wHu+3BoSGCbBAcpTsTg=
 github.com/stretchr/testify v1.9.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
-go.k6.io/k6 v0.51.0 h1:TdMpPNwYuvtmBF1APoKFHuMnNzdIMI/XLaPklSjrIUw=
-go.k6.io/k6 v0.51.0/go.mod h1:72d4MKuvKiRnkbPBGOk/gbz1aAcbKycX+GIlU7IOpuA=
+go.k6.io/k6 v0.52.0 h1:VrwjSCrM4v61UptCeTPJjYE+Ebyy3xbtqVuAFYGVM2c=
+go.k6.io/k6 v0.52.0/go.mod h1:Dr6udC+rZxT0Wu5wU98eOYpABU4e0Gc5Dx4MC5anJO8=
 go.opentelemetry.io/otel v1.27.0 h1:9BZoF3yMK/O1AafMiQTVu0YDj5Ea4hPhxCs7sGva+cg=
 go.opentelemetry.io/otel v1.27.0/go.mod h1:DMpAK8fzYRzs+bi3rS5REupisuqTheUlSZJ1WnZaPAQ=
 go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.27.0 h1:R9DE4kQ4k+YtfLI2ULwX82VtNQ2J8yZmA7ZIF/D+7Mc=
